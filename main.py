@@ -14,7 +14,7 @@ net = Net(20, HIDDEN_SIZE, HIDDEN_COUNT, 2)
 net.load_state_dict(torch.load("./models/model.pth"))
 
 
-@app.route("/", methods=["POST"])
+@app.route("/api/divorce", methods=["POST"])
 def handle_post_request():
     post_data = request.get_data()
     post_data_str = post_data.decode("utf-8")
