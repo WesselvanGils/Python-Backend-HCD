@@ -4,8 +4,10 @@ import numpy as np
 
 from model import Net
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 HIDDEN_SIZE = 100
 HIDDEN_COUNT = 2
@@ -38,3 +40,6 @@ def handle_post_request():
     json_string += other
 
     return f"{json_string}", 200
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")
