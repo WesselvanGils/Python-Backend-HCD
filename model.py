@@ -20,6 +20,7 @@ class Model:
 
         X = data.drop("Divorce", axis=1).to_numpy()
         y = data["Divorce"].to_numpy()
+        y = [1 - value for value in y]
 
         self.features = data.columns[:-1]
 
