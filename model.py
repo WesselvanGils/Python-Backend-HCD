@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import StandardScaler
-from sklearn.neural_network import MLPRegressor
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import make_pipeline
 
 from sklearn.model_selection import train_test_split
@@ -25,7 +25,7 @@ class Model:
 
         self.X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        mlp = MLPRegressor(hidden_layer_sizes=(5,),activation='logistic', max_iter=10000,learning_rate='invscaling',random_state=0)
+        mlp = MLPClassifier(hidden_layer_sizes=(5,),activation='logistic', max_iter=10000,learning_rate='invscaling',random_state=0)
         model = make_pipeline(StandardScaler(), mlp)
 
         model.fit(self.X_train, y_train)
@@ -33,7 +33,9 @@ class Model:
 
     def predict(self, data):
         data = data.reshape(1, -1)
+
         pred = self.model.predict(data)
+        conf = self.model.predict_proba(data)[0][pred]
 
         plt.clf()
 
@@ -44,4 +46,4 @@ class Model:
         plt.savefig('temp.png')
         plt.close()
 
-        return pred.astype(str)
+        return pred[0], conf[0]

@@ -21,11 +21,12 @@ def handle_post_request():
     numpy_array = np.array(values_array, dtype=np.int32)
 
     # Make the prediction and generate the image
-    prediction = model.predict(numpy_array)[0]
+    pred, conf = model.predict(numpy_array)
 
     # Generate the JSON response
-    json_string = '{"prediction":' + prediction + '}'
-    return f"{json_string}", 200
+    response_dict = {"prediction": str(pred), "confidence": str(conf)}
+    json_string = json.dumps(response_dict)
+    return json_string, 200
 
 @app.route("/image", methods=["GET"])
 def handle_image_request():
